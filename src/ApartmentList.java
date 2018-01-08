@@ -3,7 +3,7 @@ import java.util.*;
 
 public class ApartmentList {
 	static Integer count = 0;
-    static Queue<String> Friends = new LinkedList<String>();
+        static Queue<String> Friends = new LinkedList<String>();
 	static HashMap<Integer, LinkedHashSet<String>> List = new HashMap<>();
 	
 	
@@ -13,10 +13,10 @@ public class ApartmentList {
 		File file = new File("/Users/abhishekrane/Desktop/dictionary.txt");
 		BufferedReader in = null;
 		try{
-			in = new BufferedReader(new FileReader(file));
+		in = new BufferedReader(new FileReader(file));
 		}
 		catch (FileNotFoundException e){
-	    e.printStackTrace();
+	        e.printStackTrace();
 		}
 		
 		
@@ -24,30 +24,30 @@ public class ApartmentList {
 		String str;
 		LinkedHashSet temp;
 		ArrayList<String> listOfWords = new ArrayList<String>();
-	    String socialNetworkForWord = "LISTY";
+	        String socialNetworkForWord = "LISTY";
 		try {
-			while ((str = in.readLine()) != null) {
+		     while ((str = in.readLine()) != null) {
 			   if(str.trim() != null && str.trim() != "")
 			     listOfWords.add(str);
 			     if(!List.containsKey(str.length())) {
-                     temp = new LinkedHashSet<String>();
-                     temp.add(str);
-                     List.put(str.length(), temp);
-                  }
-                temp = List.get(str.length());
-                temp.add(str);
+                               temp = new LinkedHashSet<String>();
+                               temp.add(str);
+                               List.put(str.length(), temp);
+                              }
+                       temp = List.get(str.length());
+                       temp.add(str);
 				
                 //finding friends for LISTY word and adding to queue
-				 if (!(Math.abs((str.length() - socialNetworkForWord.length())) > 2)){
-					 if ((levenshteinDistance(socialNetworkForWord, str)) == 1){
-                        Friends.add(str);
-					 }
-				 }
-			 }
+		        if (!(Math.abs((str.length() - socialNetworkForWord.length())) > 2)){
+		           if ((levenshteinDistance(socialNetworkForWord, str)) == 1){
+                           Friends.add(str);
+			   }
+		        }
+		     }
 		//calling test function	
 		   test();
 		} catch (IOException e) {
-			e.printStackTrace();
+		  e.printStackTrace();
 		  }
 	   System.out.println(count);
 	 }
@@ -58,10 +58,10 @@ public class ApartmentList {
 	//poll the queue in FIFO manner and calling searchFriend()
 	public static void test (){
 		while(!Friends.isEmpty()) {
-            String findFriend = Friends.poll();
-            searchFriends(findFriend);
-            System.out.println(findFriend); 
-        }    
+                String findFriend = Friends.poll();
+                searchFriends(findFriend);
+                System.out.println(findFriend); 
+                }    
 	}
 	
 	
@@ -69,49 +69,49 @@ public class ApartmentList {
    public static void searchFriends(String findFriend) {
 		 
       //Select only words having difference +-1 with the current word
-	    LinkedHashSet smallerWords = List.get(findFriend.length()-1);
+	        LinkedHashSet smallerWords = List.get(findFriend.length()-1);
   		LinkedHashSet sameWords = List.get(findFriend.length());
   		LinkedHashSet largerWords = List.get(findFriend.length()+1);
   	
   	  // storing words in iterator and iterate over it to find friends of each word
   		Iterator<String> itr = smallerWords != null ? smallerWords.iterator():null;
-        Iterator<String> itr1 = sameWords != null ? sameWords.iterator():null;
-        Iterator<String> itr2 = largerWords != null ? largerWords.iterator():null;
+                Iterator<String> itr1 = sameWords != null ? sameWords.iterator():null;
+                Iterator<String> itr2 = largerWords != null ? largerWords.iterator():null;
         
         
-         if(itr != null) {
-            while(itr.hasNext()) {
+                if(itr != null) {
+                  while(itr.hasNext()) {
                   String word = itr.next();
-                  if ((levenshteinDistance(findFriend, word)) == 1){
-						Friends.add(word);
-                        itr.remove();
-                        count++;
+                    if ((levenshteinDistance(findFriend, word)) == 1){
+		       Friends.add(word);
+                       itr.remove();
+                       count++;
+                     }
                   }
-            }
-         }
+                }
        	   
        	
-       	if(itr1 != null) {
-               while(itr1.hasNext()) {
-                   String word = itr1.next();
-                   if ((levenshteinDistance(findFriend, word)) == 1){
-					   Friends.add(word);
-                       itr1.remove();
-                       count++;
-                   }
-               }
-       	 }
+       	      if(itr1 != null) {
+                 while(itr1.hasNext()) {
+                 String word = itr1.next();
+                     if ((levenshteinDistance(findFriend, word)) == 1){
+			Friends.add(word);
+                        itr1.remove();
+                        count++;
+                     }
+                 }
+       	      }
            
-       	if(itr2 != null) {
+       	        if(itr2 != null) {
                    while(itr2.hasNext()) {
                        String word = itr2.next();
                        if ((levenshteinDistance(findFriend, word)) == 1){
-   						 Friends.add(word);
-                         itr2.remove();
-                         count++;
+   			   Friends.add(word);
+                           itr2.remove();
+                           count++;
                        }
                    }
-         }
+                 }
 	 
        	
 	 }
